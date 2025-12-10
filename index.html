@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение для самой любимой</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Telegram-friendly стили */
+        :root {
+            --tg-bg: #0f0f0f;
+            --tg-text: #ffffff;
+            --tg-hint: #aaaaaa;
+            --tg-accent: #8774e1;
+            --tg-accent-light: #a396e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-bg);
+            color: var(--tg-text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 30px 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b9d, var(--tg-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--tg-accent-light);
+        }
+        
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        
+        .btn {
+            background: var(--tg-accent);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(135, 116, 225, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(135, 116, 225, 0.4);
+            background: var(--tg-accent-light);
+        }
+        
+        .btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .password-input {
+            padding: 18px 25px;
+            font-size: 1.3rem;
+            border: 3px solid var(--tg-accent);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--tg-text);
+            width: 90%;
+            max-width: 400px;
+            margin: 25px 0;
+            text-align: center;
+            outline: none;
+        }
+        
+        .password-input:focus {
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+        
+        .countdown {
+            font-family: 'Courier New', monospace;
+            font-size: 3rem;
+            margin: 30px 0;
+            color: #ffcc00;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            min-width: 300px;
+        }
+        
+        .heart {
+            color: #ff6b9d;
+            font-size: 3rem;
+            margin: 25px;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .photo-frame {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 30px;
+            border: 6px solid var(--tg-accent);
+            box-shadow: 0 0 40px rgba(135, 116, 225, 0.5);
+            position: relative;
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .invitation-card {
+            background: linear-gradient(135deg, rgba(135, 116, 225, 0.15), rgba(255, 107, 157, 0.1));
+            border-radius: 25px;
+            padding: 35px;
+            margin: 30px;
+            max-width: 500px;
+            border: 2px solid var(--tg-accent);
+            backdrop-filter: blur(10px);
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+        }
+        
+        .detail-item i {
+            width: 40px;
+            color: var(--tg-accent);
+            font-size: 1.5rem;
+        }
+        
+        .typed-text {
+            font-size: 1.5rem;
+            min-height: 200px;
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--tg-accent);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px;
+            display: none;
+        }
+        
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.7rem; }
+            p { font-size: 1.1rem; }
+            .countdown { font-size: 2.2rem; min-width: 250px; }
+            .btn { padding: 16px 35px; font-size: 1.1rem; }
+            .invitation-card { padding: 25px; margin: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран 1: Загрузка -->
+    <div id="screen1" class="screen active">
+        <div class="heart"><i class="fas fa-heart"></i></div>
+        <h1 id="loading-title">Загрузка приглашения...</h1>
+        <p>Подготовка волшебства для тебя <span id="her-name">[Имя]</span></p>
+        <div class="countdown" id="countdown-timer">00:00:00</div>
+        <div class="error-message" id="error-msg">Ошибка загрузки. Проверьте интернет.</div>
+    </div>
+    
+    <!-- Экран 2: Пароль -->
+    <div id="screen2" class="screen">
+        <h2><i class="fas fa-lock"></i> Секретный доступ</h2>
+        <p>Это приглашение защищено паролем</p>
+        <p><em>Как я ласково называю тебя, когда мы одни?</em></p>
+        <input type="text" id="password-input" class="password-input" placeholder="Введи слово..." autocomplete="off">
+        <button class="btn" onclick="checkPassword()"><i class="fas fa-key"></i> Проверить пароль</button>
+        <p id="password-hint" style="color:#ffcc00; display:none;">Верно! Ты навсегда моя любимая ❤️</p>
+    </div>
+    
+    <!-- Экран 3: Комплименты -->
+    <div id="screen3" class="screen">
+        <div class="photo-frame">
+            <!-- ВАЖНО: Замените ссылку на ваше фото! -->
+            <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 alt="Наше фото" id="couple-photo">
+        </div>
+        <h2><i class="fas fa-star"></i> Для самой особенной</h2>
+        <div id="typed-compliments" class="typed-text"></div>
+        <button class="btn" onclick="showScreen(4)"><i class="fas fa-arrow-right"></i> Узнать место встречи</button>
+    </div>
+    
+    <!-- Экран 4: Загадка места -->
+    <div id="screen4" class="screen">
+        <h2><i class="fas fa-map-marker-alt"></i> Поиск координат</h2>
+        <p>Место нашей встречи зашифровано в загадке:</p>
+        <div class="invitation-card">
+            <p id="location-riddle">
+                Там льётся джаз и свет свечей мерцает,<br>
+                Итальянский шепот, аромат шалфея.<br>
+                В <strong id="riddle-time">19:30</strong> жду тебя, мой свет,<br>
+                Чтобы этот вечер стал лучшим на свете.
+            </p>
+        </div>
+        <button class="btn" onclick="showScreen(5)"><i class="fas fa-map"></i> Раскрыть все детали</button>
+    </div>
+    
+    <!-- Экран 5: Финальное приглашение -->
+    <div id="screen5" class="screen">
+        <h1><i class="fas fa-gift"></i> Всё готово!</h1>
+        <div class="invitation-card">
+            <h2 id="final-location">Ресторан "Ла Скала"</h2>
+            
+            <div class="detail-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span><strong>Дата:</strong> <span id="final-date">15 Сентября 2024</span></span>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span><strong>Время:</strong> <span id="final-time" style="font-size:1.4rem; color:#ffcc00;">19:30</span></span>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-map-pin"></i>
+                <span><strong>Адрес:</strong> <span id="final-address">ул. Романтическая, 42</span></span>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-tshirt"></i>
+                <span><strong>Дресс-код:</strong> <span id="final-dress-code">Твоё самое красивое платье</span></span>
+            </div>
+            
+            <div class="detail-item" style="color:#ffcc00; margin-top:25px;">
+                <i class="fas fa-surprise"></i>
+                <span><em id="final-secret">В 20:30 ждёт сюрприз от шеф-повара</em></span>
+            </div>
+        </div>
+        
+        <button class="btn" onclick="acceptInvitation()" id="accept-btn" 
+                style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+            <i class="fas fa-check-circle"></i> Я с огромной радостью приду!
+        </button>
+        
+        <div class="heart"><i class="fas fa-heart"></i></div>
+    </div>
+
+    <script>
+        // Глобальные переменные
+        let invitationData = {};
+        let countdownInterval;
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log("🚀 Приглашение загружается...");
+            
+            try {
+                // Загружаем данные приглашения
+                const response = await fetch('/api/invitation');
+                if (!response.ok) throw new Error('Ошибка сервера');
+                
+                invitationData = await response.json();
+                console.log("✅ Данные загружены:", invitationData);
+                
+                // Устанавливаем данные
+                document.getElementById('her-name').textContent = invitationData.her_name;
+                document.getElementById('loading-title').textContent = `Для ${invitationData.her_name}`;
+                
+                // Запускаем таймер
+                startCountdown();
+                
+                // Автоматический переход через 2 секунды
+                setTimeout(() => {
+                    document.getElementById('error-msg').style.display = 'none';
+                    showScreen(2);
+                }, 2000);
+                
+            } catch (error) {
+                console.error("❌ Ошибка загрузки:", error);
+                document.getElementById('error-msg').style.display = 'block';
+                
+                // Запасные данные
+                invitationData = {
+                    her_name: "Анна",
+                    your_name: "Алексей",
+                    date: "15 Сентября 2024",
+                    time: "19:30",
+                    location: { name: "Ресторан 'Ла Скала'", address: "ул. Романтическая, 42" },
+                    dress_code: "Твоё самое красивое платье",
+                    secret: "В 20:30 ждёт сюрприз от шеф-повара",
+                    password: "любимая",
+                    event_date: "2024-09-15T19:30:00"
+                };
+                
+                // Продолжаем с запасными данными
+                setTimeout(() => showScreen(2), 2000);
+            }
+        });
+        
+        // Навигация по экранам
+        function showScreen(screenNumber) {
+            // Скрываем все экраны
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Показываем нужный экран
+            const targetScreen = document.getElementById(`screen${screenNumber}`);
+            targetScreen.classList.add('active');
+            
+            // Особые действия для экранов
+            switch(screenNumber) {
+                case 3:
+                    startTypingAnimation();
+                    break;
+                case 5:
+                    updateFinalDetails();
+                    break;
+            }
+            
+            // Прокрутка вверх
+            window.scrollTo(0, 0);
+        }
+        
+        // Таймер обратного отсчета
+        function startCountdown() {
+            const eventDate = new Date(invitationData.event_date).getTime();
+            const countdownEl = document.getElementById('countdown-timer');
+            
+            function updateTimer() {
+                const now = new Date().getTime();
+                const diff = eventDate - now;
+                
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    if (days > 0) {
+                        countdownEl.textContent = `${days}д ${hours}ч ${minutes}м`;
+                    } else {
+                        countdownEl.textContent = 
+                            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+                } else {
+                    countdownEl.textContent = "Прямо сейчас!";
+                    clearInterval(countdownInterval);
+                }
+            }
+            
+            updateTimer();
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+        
+        // Проверка пароля
+        function checkPassword() {
+            const input = document.getElementById('password-input').value.trim().toLowerCase();
+            const correctPassword = invitationData.password.toLowerCase();
+            const hintEl = document.getElementById('password-hint');
+            
+            if (input === correctPassword) {
+                hintEl.style.display = 'block';
+                hintEl.innerHTML = `Верно! Ты навсегда моя ${correctPassword} ❤️`;
+                
+                // Красивый переход через 1.5 секунды
+                setTimeout(() => {
+                    showScreen(3);
+                }, 1500);
+            } else {
+                hintEl.style.display = 'block';
+                hintEl.innerHTML = 'Не совсем... Попробуй ещё раз! 💭';
+                hintEl.style.color = '#ff6b6b';
+                
+                // Сбрасываем через 2 секунды
+                setTimeout(() => {
+                    hintEl.style.display = 'none';
+                    document.getElementById('password-input').value = '';
+                    document.getElementById('password-input').focus();
+                }, 2000);
+            }
+        }
+        
+        // Анимация печатающегося текста (комплименты)
+        function startTypingAnimation() {
+            const compliments = [
+                "Ты делаешь каждый мой день особенным...",
+                "Твоя улыбка — самый красивый рассвет...",
+                "Твой смех — моя любимая мелодия...",
+                "И сегодня я хочу создать для нас волшебный вечер 💫"
+            ];
+            
+            const typedEl = document.getElementById('typed-compliments');
+            let lineIndex = 0;
+            let charIndex = 0;
+            
+            function typeLine() {
+                if (lineIndex < compliments.length) {
+                    if (charIndex < compliments[lineIndex].length) {
+                        typedEl.innerHTML += compliments[lineIndex].charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeLine, 50);
+                    } else {
+                        typedEl.innerHTML += '<br><br>';
+                        lineIndex++;
+                        charIndex = 0;
+                        setTimeout(typeLine, 800);
+                    }
+                }
+            }
+            
+            typedEl.innerHTML = '';
+            typeLine();
+        }
+        
+        // Обновление финальных деталей
+        function updateFinalDetails() {
+            document.getElementById('final-location').textContent = invitationData.location.name;
+            document.getElementById('final-date').textContent = invitationData.date;
+            document.getElementById('final-time').textContent = invitationData.time;
+            document.getElementById('final-address').textContent = invitationData.location.address;
+            document.getElementById('final-dress-code').textContent = invitationData.dress_code;
+            document.getElementById('final-secret').textContent = invitationData.secret;
+            document.getElementById('riddle-time').textContent = invitationData.time;
+        }
+        
+        // Принятие приглашения
+        function acceptInvitation() {
+            const btn = document.getElementById('accept-btn');
+            const originalText = btn.innerHTML;
+            
+            // Меняем кнопку
+            btn.innerHTML = '<i class="fas fa-heart"></i> Жду тебя с нетерпением, моя любимая!';
+            btn.style.background = 'linear-gradient(45deg, #4CAF50, #2E7D32)';
+            btn.disabled = true;
+            
+            // Запускаем конфетти
+            launchConfetti();
+            
+            // Отправляем уведомление (если в Telegram Web App)
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'accepted',
+                    name: invitationData.her_name,
+                    timestamp: new Date().toISOString()
+                }));
+            }
+            
+            // Сохраняем в локальное хранилище
+            localStorage.setItem('invitation_accepted', 'true');
+            
+            // Восстанавливаем кнопку через 5 секунд
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 5000);
+        }
+        
+        // Эффект конфетти
+        function launchConfetti() {
+            const colors = ['#8774e1', '#ff6b9d', '#4CAF50', '#FFC107', '#2196F3'];
+            
+            for (let i = 0; i < 80; i++) {
+                createConfettiPiece(colors);
+            }
+        }
+        
+        function createConfettiPiece(colors) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Случайная позиция вверху
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-20px';
+            
+            // Случайный цвет
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Случайный размер и форма
+            const size = 8 + Math.random() * 12;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            // Анимация
+            const animation = confetti.animate([
+                { 
+                    opacity: 0,
+                    transform: 'translateY(0) rotate(0deg)'
+                },
+                { 
+                    opacity: 1,
+                    transform: `translateY(${20 + Math.random() * 20}px) rotate(180deg)`
+                },
+                { 
+                    opacity: 1,
+                    transform: `translateY(${window.innerHeight}px) rotate(${360 + Math.random() * 360}deg)`
+                }
+            ], {
+                duration: 2000 + Math.random() * 2000,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            // Удаление после анимации
+            animation.onfinish = () => confetti.remove();
+        }
+        
+        // Обработчик Enter для пароля
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+        
+        // Проверяем, было ли уже принято приглашение
+        if (localStorage.getItem('invitation_accepted') === 'true') {
+            console.log("✅ Приглашение уже было принято ранее");
+        }
+    </script>
+</body>
+</html>
