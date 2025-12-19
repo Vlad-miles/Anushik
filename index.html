@@ -3,835 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приглашение для самой любимой</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Новогодняя Гонка Эльфов! 🏁🎄</title>
     <style>
-        /* Telegram-friendly стили */
-        :root {
-            --tg-bg: #0f0f0f;
-            --tg-text: #ffffff;
-            --tg-hint: #aaaaaa;
-            --tg-accent: #8774e1;
-            --tg-accent-light: #a396e6;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--tg-bg);
-            color: var(--tg-text);
+            background: linear-gradient(to bottom, #001133, #003366);
+            color: #fff;
+            font-family: 'Arial Black', Arial, sans-serif;
+            text-align: center;
+            padding: 10px;
+            margin: 0;
             min-height: 100vh;
-            line-height: 1.6;
             overflow-x: hidden;
-        }
-        
-        .screen {
-            display: none;
-            min-height: 100vh;
-            padding: 30px 20px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        .screen.active {
-            display: flex;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff6b9d, var(--tg-accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 700;
-        }
-        
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: var(--tg-accent-light);
-        }
-        
-        p {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            max-width: 600px;
-        }
-        
-        .btn {
-            background: var(--tg-accent);
-            color: white;
-            border: none;
-            padding: 18px 45px;
-            font-size: 1.2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            margin: 15px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(135, 116, 225, 0.3);
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(135, 116, 225, 0.4);
-            background: var(--tg-accent-light);
-        }
-        
-        .btn:active {
-            transform: translateY(-2px);
-        }
-        
-        .password-input {
-            padding: 18px 25px;
-            font-size: 1.3rem;
-            border: 3px solid var(--tg-accent);
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--tg-text);
-            width: 90%;
-            max-width: 400px;
-            margin: 25px 0;
-            text-align: center;
-            outline: none;
-        }
-        
-        .password-input:focus {
-            border-color: #ff6b9d;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
-        }
-        
-        .countdown {
-            font-family: 'Courier New', monospace;
-            font-size: 3rem;
-            margin: 30px 0;
-            color: #ffcc00;
-            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            min-width: 300px;
-        }
-        
-        .heart {
-            color: #ff6b9d;
-            font-size: 3rem;
-            margin: 25px;
-            animation: heartbeat 1.5s infinite;
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        .photo-frame {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 30px;
-            border: 6px solid var(--tg-accent);
-            box-shadow: 0 0 40px rgba(135, 116, 225, 0.5);
             position: relative;
         }
-        
-        .photo-frame img {
+        #snow {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-        
-        .invitation-card {
-            background: linear-gradient(135deg, rgba(135, 116, 225, 0.15), rgba(255, 107, 157, 0.1));
-            border-radius: 25px;
-            padding: 35px;
-            margin: 30px;
-            max-width: 500px;
-            border: 2px solid var(--tg-accent);
-            backdrop-filter: blur(10px);
-        }
-        
-        .detail-item {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-            font-size: 1.2rem;
-        }
-        
-        .detail-item i {
-            width: 40px;
-            color: var(--tg-accent);
-            font-size: 1.5rem;
-        }
-        
-        .typed-text {
-            font-size: 1.5rem;
-            min-height: 200px;
-            margin: 30px 0;
-            line-height: 1.8;
-        }
-        
-        .confetti {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: var(--tg-accent);
-            border-radius: 50%;
-            opacity: 0;
             pointer-events: none;
-            z-index: 1000;
+            z-index: 1;
         }
-        
-        .error-message {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px;
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1.5em;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+        h1 {
+            font-size: 2em;
+            color: #ffcc00;
+            text-shadow: 0 0 20px #ff0000;
+            margin: 10px 0;
+            z-index: 10;
+            position: relative;
+        }
+        #host-screen, #team-screen {
             display: none;
+            max-width: 1000px;
+            margin: 0 auto;
+            z-index: 10;
+            position: relative;
         }
-        
-        /* Аудио-контролы */
-        .audio-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 15px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(135, 116, 225, 0.3);
+        #lobby {
+            display: block;
         }
-        
-        .audio-btn {
-            background: transparent;
-            border: none;
+        button {
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
             color: white;
-            font-size: 20px;
+            border: none;
+            border-radius: 15px;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
             transition: all 0.3s;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(255,0,0,0.5);
         }
-        
-        .audio-btn:hover {
-            background: rgba(135, 116, 225, 0.2);
+        button:hover, button.active {
+            background: linear-gradient(45deg, #ff6600, #ff0000);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255,0,0,0.7);
         }
-        
-        .volume-slider {
-            width: 80px;
-            height: 4px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            outline: none;
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
         }
-        
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
+        input, select {
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            border: 2px solid #ffcc00;
+            background: rgba(255,255,255,0.9);
+            margin: 10px;
+            width: 200px;
+        }
+        .leaderboard {
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .team {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        .team-name { color: #ffcc00; }
+        .team-score { color: #00ff00; font-weight: bold; }
+        #map {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .location {
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 10px;
+            position: relative;
+            transition: all 0.5s;
+        }
+        .location.current { background: #ffcc00; box-shadow: 0 0 30px #ffcc00; }
+        .location.leader { background: linear-gradient(45deg, #00ff00, #00cc00); box-shadow: 0 0 30px #00ff00; }
+        #challenge {
+            font-size: 1.5em;
+            background: rgba(0,0,0,0.8);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        #timer {
+            font-size: 3em;
+            color: #ff0000;
+            text-shadow: 0 0 20px #ff0000;
+        }
+        #clicker {
+            font-size: 4em;
+            height: 200px;
+            width: 200px;
             border-radius: 50%;
-            background: var(--tg-accent);
+            background: radial-gradient(#ffcc00, #ff6600);
+            border: none;
+            margin: 20px auto;
             cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 0 10px 30px rgba(255,204,0,0.5);
         }
-        
-        /* Мобильная адаптация */
+        #clicker:active {
+            transform: scale(0.95);
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #ffcc00);
+            width: 0%;
+            transition: width 0.3s;
+        }
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.7rem; }
-            p { font-size: 1.1rem; }
-            .countdown { font-size: 2.2rem; min-width: 250px; }
-            .btn { padding: 16px 35px; font-size: 1.1rem; }
-            .invitation-card { padding: 25px; margin: 15px; }
-            .audio-controls {
-                bottom: 10px;
-                right: 10px;
-                padding: 8px 12px;
-            }
-            .volume-slider {
-                width: 60px;
-            }
+            h1 { font-size: 1.5em; }
+            button { padding: 12px 20px; font-size: 1em; }
+            .location { width: 120px; height: 120px; font-size: 0.9em; }
         }
     </style>
 </head>
 <body>
-    <!-- Экран 1: Загрузка -->
-    <div id="screen1" class="screen active">
-        <div class="heart"><i class="fas fa-heart"></i></div>
-        <h1 id="loading-title">Загрузка приглашения...</h1>
-        <p>Подготовка волшебства для тебя <span id="her-name">[Имя]</span></p>
-        <div class="countdown" id="countdown-timer">00:00:00</div>
-        <div class="error-message" id="error-msg">Ошибка загрузки. Проверьте интернет.</div>
-    </div>
-    
-    <!-- Экран 2: Пароль -->
-    <div id="screen2" class="screen">
-        <h2><i class="fas fa-lock"></i> Секретный доступ</h2>
-        <p>Это приглашение защищено паролем</p>
-        <p><em>Как я обычно называю тебя ?</em></p>
-        <input type="text" id="password-input" class="password-input" placeholder="Введи слово..." autocomplete="off">
-        <button class="btn" onclick="checkPassword()"><i class="fas fa-key"></i> Проверить пароль</button>
-        <p id="password-hint" style="color:#ffcc00; display:none;">Верно! Ты навсегда моя мышь с мышцей ❤️</p>
-    </div>
-    
-    <!-- Экран 3: Комплименты -->
-    <div id="screen3" class="screen">
-        <div class="photo-frame">
-            <!-- Замените на ваше локальное фото -->
-            <img src="couple.jpg" alt="Наше фото" id="couple-photo">
+    <div id="snow"></div>
+    <h1>🎄 Новогодняя Гонка Эльфов! 🏁🎅</h1>
+
+    <!-- Лобби: создание/присоединение к комнате -->
+    <div id="lobby">
+        <div style="background: rgba(0,0,0,0.5); padding: 40px; border-radius: 25px; max-width: 500px; margin: 0 auto;">
+            <h2>Добро пожаловать в семейную гонку!</h2>
+            <p>Разделитесь по парам (до 4 команд). Играйте на большом экране + телефонах.</p>
+            <br>
+            <button onclick="createRoom()">📺 Создать комнату (главный экран)</button>
+            <br><br>
+            <input id="roomCode" placeholder="Код комнаты (4 буквы)" maxlength="4" style="text-transform: uppercase;">
+            <button onclick="joinRoom()">📱 Присоединиться как команда</button>
         </div>
-        <h2><i class="fas fa-star"></i> Для самой особенной</h2>
-        <div id="typed-compliments" class="typed-text"></div>
-        <button class="btn" onclick="showScreen(4)"><i class="fas fa-arrow-right"></i> Узнать место встречи</button>
-    </div>
-    
-    <!-- Экран 4: Загадка места -->
-    <div id="screen4" class="screen">
-        <h2><i class="fas fa-map-marker-alt"></i> Поиск координат</h2>
-        <p>Место нашей встречи зашифровано в загадке:</p>
-        <div class="invitation-card">
-            <p id="location-riddle">
-               Там палочки рисуют иероглиф «любовь»,<br>
-             А лосось на рисе — как закат на подушке.<br>
-                В <strong id="riddle-time">19:30</strong> жду тебя, мой свет,<br>
-               Чтобы этот вечер пах чаем и счастьем.
-            </p>
-        </div>
-        <button class="btn" onclick="showScreen(5)"><i class="fas fa-map"></i> Раскрыть все детали</button>
-    </div>
-    
-    <!-- Экран 5: Финальное приглашение -->
-    <div id="screen5" class="screen">
-        <h1><i class="fas fa-gift"></i> Всё готово!</h1>
-        <div class="invitation-card">
-            <h2 id="final-location">Ресторан "Камико"</h2>
-            
-            <div class="detail-item">
-                <i class="fas fa-calendar-alt"></i>
-                <span><strong>Дата:</strong> <span id="final-date">12 декабря 2025</span></span>
-            </div>
-            
-            <div class="detail-item">
-                <i class="fas fa-clock"></i>
-                <span><strong>Время:</strong> <span id="final-time" style="font-size:1.4rem; color:#ffcc00;">19:30</span></span>
-            </div>
-            
-            <div class="detail-item">
-                <i class="fas fa-map-pin"></i>
-                <span><strong>Адрес:</strong> <span id="final-address">ул. Романтическая, 42</span></span>
-            </div>
-            
-            <div class="detail-item">
-                <i class="fas fa-tshirt"></i>
-                <span><strong>Дресс-код:</strong> <span id="final-dress-code">Твой красивый лучок</span></span>
-            </div>
-            
-            <div class="detail-item" style="color:#ffcc00; margin-top:25px;">
-                <i class="fas fa-surprise"></i>
-                <span><em id="final-secret">Можем сильно не объедаться или купить поке</em></span>
-            </div>
-        </div>
-        
-        <button class="btn" onclick="acceptInvitation()" id="accept-btn" 
-                style="background: linear-gradient(45deg, #4CAF50, #45a049);">
-            <i class="fas fa-check-circle"></i> Я с огромной радостью приду!
-        </button>
-        
-        <div class="heart"><i class="fas fa-heart"></i></div>
-    </div>
-    
-    <!-- Аудио панель управления -->
-    <div class="audio-controls" id="audioControls">
-        <button class="audio-btn" id="audioToggle" title="Включить/выключить музыку">🔇</button>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.6" title="Громкость">
     </div>
 
-    <script>
-        // ==================== МУЗЫКАЛЬНАЯ СИСТЕМА (ЛОКАЛЬНЫЕ ФАЙЛЫ) ====================
-        // Пути к локальным музыкальным файлам в репозитории
-        const MUSIC_TRACKS = {
-            secret: 'secret.mp3',        // Напряженная музыка
-            romantic: 'romantic.mp3',    // Романтичная музыка
-            adventure: 'adventure.mp3',  // Приключенческая
-            celebration: 'celebration.mp3' // Праздничная
+    <!-- Главный экран (хост) -->
+    <div id="host-screen">
+        <div class="leaderboard">
+            <h2>🏆 Лидерборд</h2>
+            <div id="teams-list"></div>
+        </div>
+        <div id="map">
+            <div class="location" id="loc1">🏠<br>Старт</div>
+            <div class="location" id="loc2">🛠️<br>Мастерская</div>
+            <div class="location" id="loc3">🌲<br>Ёлочный лес</div>
+            <div class="location" id="loc4">⛄<br>Снежная поляна</div>
+            <div class="location" id="loc5">🎁<br>Финиш!</div>
+        </div>
+        <div id="challenge"></div>
+        <button id="next-round" onclick="nextRound()" style="display:none; font-size:1.3em;">🚀 Следующий раунд!</button>
+        <button onclick="resetGame()" style="background:#00aa00;">🔄 Новая игра</button>
+    </div>
+
+    <!-- Экран команды -->
+    <div id="team-screen">
+        <h2 id="team-name">Команда</h2>
+        <div id="team-progress"></div>
+        <div id="team-challenge"></div>
+        <div id="results"></div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getDatabase, ref, onValue, set, push, remove } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_yq2pxU6qX1rYkegVbo0Q_7oHdwS-krs",
+            authDomain: "fir-browser-example.firebaseapp.com",
+            databaseURL: "https://fir-browser-example-default-rtdb.firebaseio.com",
+            projectId: "fir-browser-example",
+            storageBucket: "fir-browser-example.appspot.com",
+            messagingSenderId: "930799896995",
+            appId: "1:930799896995:web:9da1362e937846d52b95e5"
         };
-        
-        let audioPlayer = null;
-        let currentTrack = 'secret';
-        let isMusicPlaying = false;
-        
-        // Инициализация аудио
-        function initAudioSystem() {
-            audioPlayer = new Audio(MUSIC_TRACKS.secret);
-            audioPlayer.loop = true;
-            audioPlayer.volume = 0.6;
-            
-            // Кнопка вкл/выкл
-            document.getElementById('audioToggle').addEventListener('click', toggleMusic);
-            
-            // Слайдер громкости
-            document.getElementById('volumeSlider').addEventListener('input', (e) => {
-                audioPlayer.volume = e.target.value;
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let roomCode = '';
+        let isHost = false;
+        let myTeam = null;
+        let teams = {};
+        let currentRound = 0;
+        let challengeTimer = null;
+        let roundData = null;
+
+        // Новогодние вызовы (7 раундов)
+        const challenges = [
+            { type: 'quiz', question: 'Кто привозит подарки в Новый год?', answers: ['Дед Мороз', 'Санта', 'Змей Горыныч', 'Баба Яга'], correct: 0, points: 10 },
+            { type: 'riddle', question: 'Что висит на ёлке и светит? (Варианты ниже)', answers: ['Шарик', 'Гирлянда', 'Снежинка', 'Колокольчик'], correct: 1, points: 15 },
+            { type: 'quiz', question: 'Сколько дней длится Новый год?', answers: ['1', '7', '12', '365'], correct: 0, points: 10 },
+            { type: 'speed', question: 'КЛИКАЙТЕ БЫСТРО! 10 секунд на сбор снежинок! ❄❄❄', duration: 10, pointsPerClick: 1 },
+            { type: 'quiz', question: 'Как зовут внучку Деда Мороза?', answers: ['Снегурочка', 'Снежанна', 'Морозко', 'Ёлка'], correct: 0, points: 20 },
+            { type: 'riddle', question: 'Я зелёная, колючая, в Новый год в доме стою. Что я?', answers: ['Сосна', 'Ёлка', 'Колючка', 'Огурец'], correct: 1, points: 15 },
+            { type: 'speed', question: 'ФИНАЛЬНЫЙ СПРИНТ! КЛИКАЙТЕ 15 сек! 🏃‍♂️💨', duration: 15, pointsPerClick: 2 }
+        ];
+
+        // Генерация кода комнаты
+        function generateCode() {
+            return Math.random().toString(36).substring(2,6).toUpperCase();
+        }
+
+        // Создать комнату
+        window.createRoom = function() {
+            roomCode = generateCode();
+            document.getElementById('roomCode').value = roomCode;
+            isHost = true;
+            set(ref(db, `rooms/${roomCode}`), {
+                host: true,
+                round: 0,
+                started: false,
+                teams: {}
+            }).then(() => {
+                document.getElementById('lobby').style.display = 'none';
+                document.getElementById('host-screen').style.display = 'block';
+                listenToRoom();
+                startSnow();
             });
-            
-            // Автовоспроизведение при клике на любую кнопку
-            document.addEventListener('click', startMusicOnInteraction);
-            
-            // Загружаем все треки заранее для быстрого переключения
-            preloadMusicTracks();
-            
-            console.log("🎵 Музыкальная система инициализирована (локальные файлы)");
-        }
-        
-        // Предзагрузка музыки для плавного переключения
-        function preloadMusicTracks() {
-            Object.values(MUSIC_TRACKS).forEach(src => {
-                const audio = new Audio();
-                audio.src = src;
-                audio.load();
-                console.log(`🎵 Предзагружен трек: ${src}`);
-            });
-        }
-        
-        // Запуск музыки при взаимодействии пользователя
-        function startMusicOnInteraction(e) {
-            if (!isMusicPlaying && audioPlayer) {
-                audioPlayer.play().then(() => {
-                    isMusicPlaying = true;
-                    updateAudioButton();
-                    console.log("🎵 Музыка запущена");
-                }).catch(err => {
-                    console.log("Автовоспроизведение заблокировано, ждём клика...");
-                });
-                
-                // Удаляем обработчик после первого успешного запуска
-                if (isMusicPlaying) {
-                    document.removeEventListener('click', startMusicOnInteraction);
-                }
-            }
-        }
-        
-        // Смена музыки в зависимости от экрана
-        function changeMusicForScreen(screenNumber) {
-            let track = 'secret';
-            
-            switch(screenNumber) {
-                case 1:
-                case 2:
-                    track = 'secret';      // Напряженная музыка
-                    break;
-                case 3:
-                    track = 'romantic';    // Романтичная музыка
-                    break;
-                case 4:
-                    track = 'adventure';   // Приключенческая музыка
-                    break;
-                case 5:
-                    track = 'celebration'; // Праздничная музыка
-                    break;
-            }
-            
-            if (currentTrack !== track && isMusicPlaying) {
-                changeMusicTrack(track);
-            }
-        }
-        
-        // Плавная смена трека
-        function changeMusicTrack(newTrack, fadeDuration = 1500) {
-            if (!audioPlayer || currentTrack === newTrack) return;
-            
-            console.log(`🎵 Смена музыки: ${currentTrack} -> ${newTrack}`);
-            
-            const oldVolume = audioPlayer.volume;
-            const fadeSteps = 20;
-            const stepTime = fadeDuration / fadeSteps;
-            const volumeStep = oldVolume / fadeSteps;
-            
-            // Плавное уменьшение громкости
-            let fadeOutInterval = setInterval(() => {
-                if (audioPlayer.volume > volumeStep) {
-                    audioPlayer.volume -= volumeStep;
-                } else {
-                    clearInterval(fadeOutInterval);
-                    
-                    // Меняем трек на локальный файл
-                    audioPlayer.src = MUSIC_TRACKS[newTrack];
-                    audioPlayer.play().catch(e => {
-                        console.log(`Ошибка воспроизведения ${newTrack}:`, e);
-                        // Если файл не найден, пробуем онлайн-запасной вариант
-                        audioPlayer.src = getFallbackTrack(newTrack);
-                        audioPlayer.play();
-                    });
-                    
-                    currentTrack = newTrack;
-                    
-                    // Плавное увеличение громкости
-                    let currentVol = 0;
-                    let fadeInInterval = setInterval(() => {
-                        if (currentVol < oldVolume) {
-                            currentVol += volumeStep;
-                            audioPlayer.volume = currentVol;
-                        } else {
-                            clearInterval(fadeInInterval);
-                        }
-                    }, stepTime);
-                }
-            }, stepTime);
-        }
-        
-        // Запасные онлайн-треки (если локальные файлы не загружены)
-        function getFallbackTrack(trackName) {
-            const fallbackTracks = {
-                secret: 'https://assets.mixkit.co/music/preview/mixkit-sci-fi-suspense-729.mp3',
-                romantic: 'https://assets.mixkit.co/music/preview/mixkit-a-love-to-cherish-531.mp3',
-                adventure: 'https://assets.mixkit.co/music/preview/mixkit-exploring-the-world-523.mp3',
-                celebration: 'https://assets.mixkit.co/music/preview/mixkit-happy-celebration-567.mp3'
-            };
-            console.log(`🎵 Используется онлайн-запасной трек для ${trackName}`);
-            return fallbackTracks[trackName] || fallbackTracks.secret;
-        }
-        
-        // Переключение музыки вкл/выкл
-        function toggleMusic() {
-            if (!audioPlayer) return;
-            
-            if (isMusicPlaying) {
-                audioPlayer.pause();
-                isMusicPlaying = false;
-            } else {
-                audioPlayer.play().then(() => {
-                    isMusicPlaying = true;
-                }).catch(err => {
-                    console.log("Ошибка воспроизведения музыки:", err);
-                });
-            }
-            
-            updateAudioButton();
-        }
-        
-        // Обновление иконки кнопки
-        function updateAudioButton() {
-            const btn = document.getElementById('audioToggle');
-            if (isMusicPlaying) {
-                btn.innerHTML = '🔊';
-                btn.title = 'Выключить музыку';
-            } else {
-                btn.innerHTML = '🔇';
-                btn.title = 'Включить музыку';
-            }
-        }
-        
-        // ==================== ОРИГИНАЛЬНЫЙ КОД ПРИГЛАШЕНИЯ ====================
-        let invitationData = {};
-        let countdownInterval;
-        
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log("🚀 Приглашение загружается...");
-            
-            // Инициализируем аудио систему
-            initAudioSystem();
-            
-            try {
-                // Загружаем данные приглашения
-                const response = await fetch('/api/invitation');
-                if (!response.ok) throw new Error('Ошибка сервера');
-                
-                invitationData = await response.json();
-                console.log("✅ Данные загружены:", invitationData);
-                
-                // Устанавливаем данные
-                document.getElementById('her-name').textContent = invitationData.her_name;
-                document.getElementById('loading-title').textContent = `Для ${invitationData.her_name}`;
-                
-                // Запускаем таймер
-                startCountdown();
-                
-                // Автоматический переход через 2 секунды
-                setTimeout(() => {
-                    document.getElementById('error-msg').style.display = 'none';
-                    showScreen(2);
-                }, 2000);
-                
-            } catch (error) {
-                console.error("❌ Ошибка загрузки:", error);
-                document.getElementById('error-msg').style.display = 'block';
-                
-                // Запасные данные
-                invitationData = {
-                    her_name: "Анна",
-                    your_name: "Влад",
-                    date: "12 декабря 2025",
-                    time: "19:30",
-                    location: { name: "Камико", address: "Советская улица, 58" },
-                    dress_code: "Твоё самое красивое платье",
-                    secret: "Можем сильно не объедаться или купить поке",
-                    password: "Мышка",
-                    event_date: "2025-12-12T19:30:00"
-                };
-                
-                // Продолжаем с запасными данными
-                setTimeout(() => showScreen(2), 2000);
-            }
-        });
-        
-        // Навигация по экранам
-        function showScreen(screenNumber) {
-            // Скрываем все экраны
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
-            // Показываем нужный экран
-            const targetScreen = document.getElementById(`screen${screenNumber}`);
-            targetScreen.classList.add('active');
-            
-            // Меняем музыку при переходе между экранами
-            changeMusicForScreen(screenNumber);
-            
-            // Особые действия для экранов
-            switch(screenNumber) {
-                case 3:
-                    startTypingAnimation();
-                    break;
-                case 5:
-                    updateFinalDetails();
-                    break;
-            }
-            
-            // Прокрутка вверх
-            window.scrollTo(0, 0);
-        }
-        
-        // Таймер обратного отсчета
-        function startCountdown() {
-            const eventDate = new Date(invitationData.event_date).getTime();
-            const countdownEl = document.getElementById('countdown-timer');
-            
-            function updateTimer() {
-                const now = new Date().getTime();
-                const diff = eventDate - now;
-                
-                if (diff > 0) {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    if (days > 0) {
-                        countdownEl.textContent = `${days}д ${hours}ч ${minutes}м`;
-                    } else {
-                        countdownEl.textContent = 
-                            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        };
+
+        // Присоединиться
+        window.joinRoom = function() {
+            roomCode = document.getElementById('roomCode').value.toUpperCase();
+            if (roomCode.length !== 4) return alert('Код должен быть 4 буквы!');
+            myTeam = prompt('Имя вашей пары/команды:');
+            if (!myTeam) return;
+            const teamRef = ref(db, `rooms/${roomCode}/teams/${myTeam}`);
+            set(teamRef, { score: 0, progress: 0, ready: false, answer: null, clicks: 0 });
+            document.getElementById('lobby').style.display = 'none';
+            document.getElementById('team-screen').style.display = 'block';
+            document.getElementById('team-name').textContent = `🎮 ${myTeam}`;
+            listenToRoom();
+            startSnow();
+        };
+
+        // Слушать комнату
+        function listenToRoom() {
+            const roomRef = ref(db, `rooms/${roomCode}`);
+            onValue(roomRef, (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+                teams = data.teams || {};
+                currentRound = data.round || 0;
+                if (isHost) {
+                    updateHostScreen();
+                    if (data.started && currentRound < challenges.length) {
+                        startChallenge();
                     }
                 } else {
-                    countdownEl.textContent = "Прямо сейчас!";
-                    clearInterval(countdownInterval);
+                    updateTeamScreen();
                 }
-            }
-            
-            updateTimer();
-            countdownInterval = setInterval(updateTimer, 1000);
+            });
         }
-        
-        // Проверка пароля
-        function checkPassword() {
-            const input = document.getElementById('password-input').value.trim().toLowerCase();
-            const correctPassword = invitationData.password.toLowerCase();
-            const hintEl = document.getElementById('password-hint');
-            
-            if (input === correctPassword) {
-                hintEl.style.display = 'block';
-                hintEl.innerHTML = `Верно! Ты навсегда моя ${correctPassword} ❤️`;
-                
-                // Красивый переход через 1.5 секунды
-                setTimeout(() => {
-                    showScreen(3);
-                }, 1500);
-            } else {
-                hintEl.style.display = 'block';
-                hintEl.innerHTML = 'Не совсем... Тут уменьшительная ласкательная форма, м...ь';
-                hintEl.style.color = '#ff6b6b';
-                
-                // Сбрасываем через 2 секунды
-                setTimeout(() => {
-                    hintEl.style.display = 'none';
-                    document.getElementById('password-input').value = '';
-                    document.getElementById('password-input').focus();
-                }, 2000);
+
+        // Обновить хост экран
+        function updateHostScreen() {
+            const list = document.getElementById('teams-list');
+            list.innerHTML = '';
+            let totalTeams = 0;
+            Object.keys(teams).forEach(name => {
+                totalTeams++;
+                const div = document.createElement('div');
+                div.className = 'team';
+                div.innerHTML = `<span class="team-name">${name}</span><span class="team-score">${teams[name].score || 0} ⭐</span>`;
+                list.appendChild(div);
+            });
+            if (totalTeams < 2) {
+                document.getElementById('next-round').style.display = 'none';
+                return;
             }
+            // Подсветить локации
+            document.querySelectorAll('.location').forEach((loc, i) => {
+                loc.classList.remove('current', 'leader');
+                const maxProgress = Math.max(...Object.values(teams).map(t => t.progress || 0));
+                if (i === (currentRound || 0)) loc.classList.add('current');
+                if (maxProgress >= i+1) loc.classList.add('leader');
+            });
+            document.getElementById('next-round').style.display = currentRound < challenges.length ? 'inline-block' : 'none';
         }
-        
-        // Анимация печатающегося текста (комплименты)
-        function startTypingAnimation() {
-compliments = [
-    "Дорогой Анушик =) Я тебя люблю!",
-    "Твоя улыбка для меня — как солнце в пасмурный день",
-    "Я люблю именно ТЕБЯ — настоящую, неповторимую",
-    "Твои пародии на мемы и тиктоки — это целый мир эмоций, который ты даришь мне усиливая их суть"
-];
-            
-            const typedEl = document.getElementById('typed-compliments');
-            let lineIndex = 0;
-            let charIndex = 0;
-            
-            function typeLine() {
-                if (lineIndex < compliments.length) {
-                    if (charIndex < compliments[lineIndex].length) {
-                        typedEl.innerHTML += compliments[lineIndex].charAt(charIndex);
-                        charIndex++;
-                        setTimeout(typeLine, 50);
-                    } else {
-                        typedEl.innerHTML += '<br><br>';
-                        lineIndex++;
-                        charIndex = 0;
-                        setTimeout(typeLine, 800);
-                    }
+
+        // Следующий раунд
+        window.nextRound = function() {
+            const newRound = currentRound + 1;
+            set(ref(db, `rooms/${roomCode}`), { round: newRound, started: true });
+            // Сбросить ответы команд
+            Object.keys(teams).forEach(name => {
+                set(ref(db, `rooms/${roomCode}/teams/${name}`), { ...teams[name], ready: false, answer: null, clicks: 0 });
+            });
+        };
+
+        // Старт челленджа
+        function startChallenge() {
+            roundData = challenges[currentRound];
+            const challengeEl = document.getElementById('challenge');
+            challengeEl.innerHTML = `
+                <h2>Раунд ${currentRound + 1}: ${roundData.question}</h2>
+                <div id="timer"></div>
+                <div class="progress"><div class="progress-bar" id="prog-bar"></div></div>
+            `;
+            if (roundData.type === 'speed') {
+                challengeEl.innerHTML += '<button id="clicker" onclick="teamClick()">❄ КЛИК!</button>';
+            }
+            startTimer(roundData.duration || 20);
+        }
+
+        // Таймер
+        function startTimer(duration) {
+            let time = duration;
+            const timerEl = document.getElementById('timer');
+            const progEl = document.getElementById('prog-bar');
+            challengeTimer = setInterval(() => {
+                time--;
+                timerEl.textContent = time;
+                progEl.style.width = ((duration - time) / duration * 100) + '%';
+                if (time <= 0) {
+                    clearInterval(challengeTimer);
+                    endRound();
                 }
-            }
-            
-            typedEl.innerHTML = '';
-            typeLine();
+            }, 1000);
         }
-        
-        // Обновление финальных деталей
-        function updateFinalDetails() {
-            document.getElementById('final-location').textContent = invitationData.location.name;
-            document.getElementById('final-date').textContent = invitationData.date;
-            document.getElementById('final-time').textContent = invitationData.time;
-            document.getElementById('final-address').textContent = invitationData.location.address;
-            document.getElementById('final-dress-code').textContent = invitationData.dress_code;
-            document.getElementById('final-secret').textContent = invitationData.secret;
-            document.getElementById('riddle-time').textContent = invitationData.time;
-        }
-        
-        // Принятие приглашения
-        function acceptInvitation() {
-            const btn = document.getElementById('accept-btn');
-            const originalText = btn.innerHTML;
-            
-            // Меняем кнопку
-            btn.innerHTML = '<i class="fas fa-heart"></i> Жду тебя с нетерпением, мой Анушик';
-            btn.style.background = 'linear-gradient(45deg, #4CAF50, #2E7D32)';
-            btn.disabled = true;
-            
-            // Усиливаем музыку при принятии приглашения
-            if (audioPlayer && isMusicPlaying) {
-                const oldVolume = audioPlayer.volume;
-                audioPlayer.volume = Math.min(oldVolume * 1.3, 1.0);
-                
-                // Возвращаем громкость через 3 секунды
-                setTimeout(() => {
-                    audioPlayer.volume = oldVolume;
-                }, 3000);
-            }
-            
-            // Запускаем конфетти
-            launchConfetti();
-            
-            // Отправляем уведомление (если в Telegram Web App)
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.sendData(JSON.stringify({
-                    action: 'accepted',
-                    name: invitationData.her_name,
-                    timestamp: new Date().toISOString()
-                }));
-            }
-            
-            // Сохраняем в локальное хранилище
-            localStorage.setItem('invitation_accepted', 'true');
-            
-            // Восстанавливаем кнопку через 5 секунд
+
+        // Конец раунда
+        function endRound() {
+            // Подсчёт очков
+            Object.keys(teams).forEach(name => {
+                const team = teams[name];
+                let points = 0;
+                if (roundData.type === 'quiz' || roundData.type === 'riddle') {
+                    if (team.answer === roundData.correct) points = roundData.points;
+                } else if (roundData.type === 'speed') {
+                    points = team.clicks * roundData.pointsPerClick;
+                }
+                const newScore = (team.score || 0) + points;
+                const newProgress = Math.min(5, (team.progress || 0) + 1);
+                set(ref(db, `rooms/${roomCode}/teams/${name}`), {
+                    ...team,
+                    score: newScore,
+                    progress: newProgress
+                });
+            });
             setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }, 5000);
+                alert(`Раунд завершён! Обновите лидерборд. Победитель раунда получит бонус в очках!`);
+            }, 2000);
         }
-        
-        // Эффект конфетти
-        function launchConfetti() {
-            const colors = ['#8774e1', '#ff6b9d', '#4CAF50', '#FFC107', '#2196F3'];
-            
-            for (let i = 0; i < 80; i++) {
-                createConfettiPiece(colors);
+
+        // Обновить экран команды
+        function updateTeamScreen() {
+            const progressEl = document.getElementById('team-progress');
+            progressEl.innerHTML = `
+                <h3>Ваш прогресс: ${teams[myTeam]?.progress || 0}/5</h3>
+                <div class="progress"><div class="progress-bar" style="width: ${(teams[myTeam]?.progress || 0)/5 * 100}%"></div></div>
+            `;
+            const challengeEl = document.getElementById('team-challenge');
+            if (currentRound < challenges.length && roundData) {
+                if (roundData.type === 'quiz' || roundData.type === 'riddle') {
+                    challengeEl.innerHTML = `
+                        <h3>${roundData.question}</h3>
+                        <div class="answers">
+                            ${roundData.answers.map((ans, i) => `<button onclick="submitAnswer(${i})">${ans}</button>`).join('')}
+                        </div>
+                    `;
+                } else {
+                    challengeEl.innerHTML = `
+                        <h3>${roundData.question}</h3>
+                        <button id="team-clicker" onclick="teamClick()">❄ КЛИК!</button>
+                        <p>Кликов: <span id="click-count">0</span></p>
+                    `;
+                }
             }
         }
-        
-        function createConfettiPiece(colors) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            
-            // Случайная позиция вверху
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.top = '-20px';
-            
-            // Случайный цвет
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Случайный размер и форма
-            const size = 8 + Math.random() * 12;
-            confetti.style.width = size + 'px';
-            confetti.style.height = size + 'px';
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            
-            document.body.appendChild(confetti);
-            
-            // Анимация
-            const animation = confetti.animate([
-                { 
-                    opacity: 0,
-                    transform: 'translateY(0) rotate(0deg)'
-                },
-                { 
-                    opacity: 1,
-                    transform: `translateY(${20 + Math.random() * 20}px) rotate(180deg)`
-                },
-                { 
-                    opacity: 1,
-                    transform: `translateY(${window.innerHeight}px) rotate(${360 + Math.random() * 360}deg)`
-                }
-            ], {
-                duration: 2000 + Math.random() * 2000,
-                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
-            });
-            
-            // Удаление после анимации
-            animation.onfinish = () => confetti.remove();
-        }
-        
-        // Обработчик Enter для пароля
-        document.getElementById('password-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkPassword();
-        });
-        
-        // Проверяем, было ли уже принято приглашение
-        if (localStorage.getItem('invitation_accepted') === 'true') {
-            console.log("✅ Приглашение уже было принято ранее");
+
+        // Отправить ответ команды
+        window.submitAnswer = function(answer) {
+            set(ref(db, `rooms/${roomCode}/teams/${myTeam}`), { ...teams[myTeam], ready: true, answer });
+            document.querySelectorAll('#team-challenge button').forEach(b => b.disabled = true);
+            document.getElementById('results').innerHTML = '✅ Ответ отправлен! Ждите итогов.';
+        };
+
+        // Клик команды
+        window.teamClick = function() {
+            const currentClicks = (teams[myTeam]?.clicks || 0) + 1;
+            set(ref(db, `rooms/${roomCode}/teams/${myTeam}`), { ...teams[myTeam], clicks: currentClicks });
+            document.getElementById('click-count').textContent = currentClicks;
+            // Вибрация на телефоне
+            if (navigator.vibrate) navigator.vibrate(50);
+        };
+
+        // Ресет игры
+        window.resetGame = function() {
+            remove(ref(db, `rooms/${roomCode}`));
+            location.reload();
+        };
+
+        // Снег
+        function startSnow() {
+            const snow = document.getElementById('snow');
+            setInterval(() => {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = '❄';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                flake.style.opacity = Math.random() * 0.5 + 0.3;
+                snow.appendChild(flake);
+                setTimeout(() => flake.remove(), 6000);
+            }, 200);
         }
     </script>
 </body>
